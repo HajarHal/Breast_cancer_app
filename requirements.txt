@@ -1,0 +1,6 @@
+Flask
+Werkzeug
+pandas
+pyvis
+SQLAlchemy
+psycopg2-binary
