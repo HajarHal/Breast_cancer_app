@@ -4,3 +4,4 @@ pandas
 pyvis
 SQLAlchemy
 psycopg2-binary
+gunicorn
