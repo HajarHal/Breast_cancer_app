@@ -38,20 +38,20 @@
   <div class="branding d-flex align-items-center">
 
     <div class="container position-relative d-flex align-items-center justify-content-end">
-      <a href="" class="logo d-flex align-items-center me-auto">
+      <a href="index.html" class="logo d-flex align-items-center me-auto">
         <img src="/assets/img/logo.png" alt="Logo" >
       </a>
 
       <nav id="navmenu" class="navmenu">
         <ul>
           <li><a href="#hero" class="active">Home</a></li>
-          <li><a href="#featured-services">Choose cancer type</a></li>
           <li><a href="#about">About</a></li>
           <li><a href="#services">Services</a></li>
           <li><a href="#footer">Contact</a></li>
         </ul>
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav>
+      <a class="cta-btn" href="#featured-services">Choose cancer type</a>
 
     </div>
 
@@ -110,50 +110,51 @@
   <!-- Featured Services Section -->
   <section id="featured-services" class="featured-services section">
   <div class="container section-title" data-aos="fade-up">
-    <h2>Choose cancer type<br></h2>
-  </div>
-  <div class="container">
+      <h2>Choose cancer type<br></h2>
 
-    <div class="row gy-4 justify-content-center">
+    </div>
+    <div class="container">
 
-      <!-- Female Breast Cancer -->
-      <div class="col-lg-4 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="100">
-        <div class="service-item position-relative">
-          <div class="icon"><i class="fas fa-female icon"></i></div>
-          <h4>
-            <a href="{{ url_for('cancer_type', cancer_type='female') }}" class="stretched-link">Female breast cancer</a>
-          </h4>
-          <p>The most common form of breast cancer, affecting many women globally. Early detection through regular screenings is vital for improving survival rates. Risk factors include genetics, hormones, and lifestyle choices. Continued advancements in treatment and prevention aim to reduce its impact.</p>
-        </div>
-      </div><!-- End Service Item -->
+      <div class="row gy-4">
 
-      <!-- Male Breast Cancer -->
-      <div class="col-lg-4 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="200">
-        <div class="service-item position-relative">
-          <div class="icon"><i class="fas fa-male icon"></i></div>
-          <h4>
-            <a href="{{ url_for('cancer_type', cancer_type='male') }}" class="stretched-link">Male breast cancer</a>
-          </h4>
-          <p>A rare but serious condition, often diagnosed at a later stage due to low awareness. Key risk factors include genetic mutations like BRCA2, radiation exposure, and hormonal imbalances. Increasing awareness and early screening are crucial for better outcomes.</p>
-        </div>
-      </div><!-- End Service Item -->
+        <div class="col-xl-3 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="100">
+          <div class="service-item position-relative">
+            <div class="icon"><i class="fas fa-female icon"></i></div>
+            <h4>
+              <a href="{{ url_for('cancer_type', cancer_type='female') }}" class="stretched-link">Female breast cancer</a>
+            </h4>
+            <p>The most common form of breast cancer, affecting many women globally. Early detection through regular screenings is vital for improving survival rates. Risk factors include genetics, hormones, and lifestyle choices. Continued advancements in treatment and prevention aim to reduce its impact.</p>
+          </div>
+        </div><!-- End Service Item -->
 
-      <!-- Recurrent Breast Cancer -->
-      <div class="col-lg-4 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="300">
-        <div class="service-item position-relative">
-          <div class="icon"><i class="fas fa-ribbon icon"></i></div>
-          <h4>
-            <a href="{{ url_for('cancer_type', cancer_type='reccu') }}" class="stretched-link">Recurrent breast cancer</a>
-          </h4>
-          <p>Occurs when cancer returns after initial treatment, requiring a comprehensive approach to management. It can reappear in the same or opposite breast or spread to other parts of the body. Early detection through continuous monitoring is essential for effective treatment.</p>
-        </div>
-      </div><!-- End Service Item -->
+        <div class="col-xl-3 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="200">
+          <div class="service-item position-relative">
+            <div class="icon"><i class="fas fa-male icon"></i></div>
+            <h4> <a href="{{ url_for('cancer_type', cancer_type='male') }}" class="stretched-link">Male breast cancer</a></h4>
+            <p>A rare but serious condition, often diagnosed at a later stage due to low awareness. Key risk factors include genetic mutations like BRCA2, radiation exposure, and hormonal imbalances. Increasing awareness and early screening are crucial for better outcomes.</p>
+          </div>
+        </div><!-- End Service Item -->
 
-    </div><!-- End Row -->
+        <div class="col-xl-3 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="300">
+          <div class="service-item position-relative">
+            <div class="icon"><i class="fas fa-ribbon icon"></i></div>
+            <h4> <a href="{{ url_for('cancer_type', cancer_type='reccu') }}" class="stretched-link">Recurrent breast cancer</a></h4>
+            <p>Occurs when cancer returns after initial treatment, requiring a comprehensive approach to management. It can reappear in the same or opposite breast or spread to other parts of the body. Early detection through continuous monitoring is essential for effective treatment.</p>
+          </div>
+        </div><!-- End Service Item -->
+        <div class="col-xl-3 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="300">
+          <div class="service-item position-relative">
+            <div class="icon"><i class="fas fa-chart-bar icon"></i></div>
+            <h4> <a href="{{ url_for('causes_sta') }}" class="stretched-link" >Frequency of Causes</a></h4>
+            <p>Occurs when cancer returns after initial treatment, requiring a comprehensive approach to management. It can reappear in the same or opposite breast or spread to other parts of the body. Early detection through continuous monitoring is essential for effective treatment.</p>
+          </div>
+        </div><!-- End Service Item -->
 
-  </div><!-- End Container -->
-</section><!-- /Featured Services Section -->
+      </div>
 
+    </div>
+
+  </section><!-- /Featured Services Section -->
 
 
   <!-- About Section -->
@@ -170,7 +171,7 @@
       <div class="row gy-4">
         <div class="col-lg-6 position-relative align-self-start" data-aos="fade-up" data-aos-delay="100">
           <img src="/assets/img/about.jpg" class="img-fluid" alt="">
-          <a href="https://www.youtube.com/watch?v=LMRhix52hR8" class="glightbox pulsating-play-btn"></a>
+          <a href="https://www.youtube.com/watch?v=Y7f98aduVJ8" class="glightbox pulsating-play-btn"></a>
         </div>
         <div class="col-lg-6 content" data-aos="fade-up" data-aos-delay="200">
           <h3>Welcome to Your Breast Cancer Knowledge Hub</h3>
@@ -294,11 +295,11 @@
             <div class="icon">
               <i class="fas fa-handshake "></i>
             </div>
-            <a href="" class="stretched-link">
+            <a href="#" class="stretched-link">
               <h3>Collaborative Opportunities</h3>
             </a>
             <p>Engage with a global community of learners and experts through our university-backed platform, fostering collaboration and knowledge sharing in the fight against breast cancer.</p>
-            <a href="" class="stretched-link"></a>
+            <a href="#" class="stretched-link"></a>
           </div>
         </div><!-- End Service Item -->
 
@@ -320,8 +321,8 @@
       <div class="footer-contact pt-3">
         <p> International University of Rabat Technopolis Rabat-Shore Rocade </p>
         <p>Rabat-Salé </p>
-        <p class="mt-3"><strong>Phone:</strong> <span>+212 (0)5 30 10 30 00</span></p>
-        <p><strong>Email:</strong> <span>contact@uir.ac.ma</span></p>
+        <p class="mt-3"><strong>Phone:</strong> <span>+212 660559444</span></p>
+        <p><strong>Email:</strong> <span>hajarhalmaoui.1@gmail.com</span></p>
       </div>
 
     </div>
@@ -331,10 +332,10 @@
       <h4>About Social Media Links</h4>
       <p>Stay connected with us through our social media channels for the latest updates and news.</p>
       <div class="social-links d-flex mt-4">
-        <a href="https://x.com/UIRabat"><i class="bi bi-twitter-x"></i></a>
-        <a href="https://www.facebook.com/Universite.Internationale.de.Rabat/?locale=fr_FR"><i class="bi bi-facebook"></i></a>
-        <a href="https://www.instagram.com/uir.rabat?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="><i class="bi bi-instagram"></i></a>
-        <a href="https://www.linkedin.com/school/universit-internationale-de-rabat/posts/?feedView=all"><i class="bi bi-linkedin"></i></a>
+        <a href=""><i class="bi bi-twitter-x"></i></a>
+        <a href=""><i class="bi bi-facebook"></i></a>
+        <a href=""><i class="bi bi-instagram"></i></a>
+        <a href=""><i class="bi bi-linkedin"></i></a>
       </div>
     </div>
 
@@ -353,6 +354,12 @@
 
     <div class="container copyright text-center mt-4">
       <p>© <span>Copyright</span> <strong class="px-1 sitename">BREASTPULSE</strong> <span>All Rights Reserved</span></p>
+      <div class="credits">
+        <!-- All the links in the footer should remain intact. -->
+        <!-- You can delete the links only if you've purchased the pro version. -->
+        <!-- Licensing information: https://bootstrapmade.com/license/ -->
+        <!-- Purchase the pro version with working PHP/AJAX contact form: [buy-url] -->
+        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
       </div>
     </div>
 

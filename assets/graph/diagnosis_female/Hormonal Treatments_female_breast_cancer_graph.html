@@ -1,0 +1,155 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 600px;
+                 background-color: #ffffff;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "lightblue", "id": "Gonadal Steroid Hormones", "label": "Gonadal Steroid Hormones", "shape": "dot", "size": 15, "title": "Gonadal Steroid Hormones"}, {"color": "lightblue", "id": "Female Breast Cancer", "label": "Female Breast Cancer", "shape": "dot", "size": 15, "title": "Female Breast Cancer"}, {"color": "lightblue", "id": "Estrogen Antagonists", "label": "Estrogen Antagonists", "shape": "dot", "size": 15, "title": "Estrogen Antagonists"}, {"color": "lightblue", "id": "Selective Estrogen Receptor Modulators", "label": "Selective Estrogen Receptor Modulators", "shape": "dot", "size": 15, "title": "Selective Estrogen Receptor Modulators"}, {"color": "lightblue", "id": "Tamoxifen", "label": "Tamoxifen", "shape": "dot", "size": 15, "title": "Tamoxifen"}, {"color": "lightblue", "id": "Estrogen Receptors", "label": "Estrogen Receptors", "shape": "dot", "size": 15, "title": "Estrogen Receptors"}, {"color": "lightblue", "id": "Phytoestrogens", "label": "Phytoestrogens", "shape": "dot", "size": 15, "title": "Phytoestrogens"}, {"color": "lightblue", "id": "Estrogens", "label": "Estrogens", "shape": "dot", "size": 15, "title": "Estrogens"}, {"color": "lightblue", "id": "Estrogen Receptor Modulators", "label": "Estrogen Receptor Modulators", "shape": "dot", "size": 15, "title": "Estrogen Receptor Modulators"}, {"color": "lightblue", "id": "Estrogen Receptor beta", "label": "Estrogen Receptor beta", "shape": "dot", "size": 15, "title": "Estrogen Receptor beta"}, {"color": "lightblue", "id": "mullerian-inhibiting hormone", "label": "mullerian-inhibiting hormone", "shape": "dot", "size": 15, "title": "mullerian-inhibiting hormone"}, {"color": "lightblue", "id": "ESTROGENIC SUBSTANCES", "label": "ESTROGENIC SUBSTANCES", "shape": "dot", "size": 15, "title": "ESTROGENIC SUBSTANCES"}, {"color": "lightblue", "id": "Estrogen Receptor alpha", "label": "Estrogen Receptor alpha", "shape": "dot", "size": 15, "title": "Estrogen Receptor alpha"}, {"color": "lightblue", "id": "tamoxifen", "label": "tamoxifen", "shape": "dot", "size": 15, "title": "tamoxifen"}, {"color": "lightblue", "id": "progesterone", "label": "progesterone", "shape": "dot", "size": 15, "title": "progesterone"}, {"color": "lightblue", "id": "Nuclear Hormone Receptors", "label": "Nuclear Hormone Receptors", "shape": "dot", "size": 15, "title": "Nuclear Hormone Receptors"}, {"color": "lightblue", "id": "Hormone Receptor", "label": "Hormone Receptor", "shape": "dot", "size": 15, "title": "Hormone Receptor"}, {"color": "lightblue", "id": "Progesterone", "label": "Progesterone", "shape": "dot", "size": 15, "title": "Progesterone"}, {"color": "lightblue", "id": "Medroxyprogesterone 17-Acetate", "label": "Medroxyprogesterone 17-Acetate", "shape": "dot", "size": 15, "title": "Medroxyprogesterone 17-Acetate"}, {"color": "lightblue", "id": "Androgens", "label": "Androgens", "shape": "dot", "size": 15, "title": "Androgens"}, {"color": "lightblue", "id": "Hormones", "label": "Hormones", "shape": "dot", "size": 15, "title": "Hormones"}, {"color": "lightblue", "id": "Steroid hormone", "label": "Steroid hormone", "shape": "dot", "size": 15, "title": "Steroid hormone"}, {"color": "lightblue", "id": "Tamoxifen Citrate", "label": "Tamoxifen Citrate", "shape": "dot", "size": 15, "title": "Tamoxifen Citrate"}, {"color": "lightblue", "id": "estrogens", "label": "estrogens", "shape": "dot", "size": 15, "title": "estrogens"}, {"color": "lightblue", "id": "pregnancy hormones", "label": "pregnancy hormones", "shape": "dot", "size": 15, "title": "pregnancy hormones"}, {"color": "lightblue", "id": "releasing hormones", "label": "releasing hormones", "shape": "dot", "size": 15, "title": "releasing hormones"}, {"color": "lightblue", "id": "Estrogen-progestin preparation", "label": "Estrogen-progestin preparation", "shape": "dot", "size": 15, "title": "Estrogen-progestin preparation"}, {"color": "lightblue", "id": "Hormone manipulation", "label": "Hormone manipulation", "shape": "dot", "size": 15, "title": "Hormone manipulation"}, {"color": "lightblue", "id": "Estrogens, Non-Steroidal", "label": "Estrogens, Non-Steroidal", "shape": "dot", "size": 15, "title": "Estrogens, Non-Steroidal"}, {"color": "lightblue", "id": "Androgen Receptor|AR", "label": "Androgen Receptor|AR", "shape": "dot", "size": 15, "title": "Androgen Receptor|AR"}, {"color": "lightblue", "id": "4-hydroxy-N-desmethyltamoxifen", "label": "4-hydroxy-N-desmethyltamoxifen", "shape": "dot", "size": 15, "title": "4-hydroxy-N-desmethyltamoxifen"}, {"color": "lightblue", "id": "Estrogenic", "label": "Estrogenic", "shape": "dot", "size": 15, "title": "Estrogenic"}, {"color": "lightblue", "id": "Tamoxifen 20 MG", "label": "Tamoxifen 20 MG", "shape": "dot", "size": 15, "title": "Tamoxifen 20 MG"}, {"color": "lightblue", "id": "Sex Hormone-Binding Globulin", "label": "Sex Hormone-Binding Globulin", "shape": "dot", "size": 15, "title": "Sex Hormone-Binding Globulin"}, {"color": "lightblue", "id": "Conjugated Equine Estrogens", "label": "Conjugated Equine Estrogens", "shape": "dot", "size": 15, "title": "Conjugated Equine Estrogens"}, {"color": "lightblue", "id": "Estrogen Receptor beta|EREG|ESR1", "label": "Estrogen Receptor beta|EREG|ESR1", "shape": "dot", "size": 15, "title": "Estrogen Receptor beta|EREG|ESR1"}, {"color": "lightblue", "id": "Gonadotropin-Releasing Hormone Analog", "label": "Gonadotropin-Releasing Hormone Analog", "shape": "dot", "size": 15, "title": "Gonadotropin-Releasing Hormone Analog"}, {"color": "lightblue", "id": "estrogens, conjugated (USP)", "label": "estrogens, conjugated (USP)", "shape": "dot", "size": 15, "title": "estrogens, conjugated (USP)"}, {"color": "lightblue", "id": "alpha-carotene", "label": "alpha-carotene", "shape": "dot", "size": 15, "title": "alpha-carotene"}, {"color": "lightblue", "id": "alpha-Fetoproteins", "label": "alpha-Fetoproteins", "shape": "dot", "size": 15, "title": "alpha-Fetoproteins"}, {"color": "lightblue", "id": "Raloxifene", "label": "Raloxifene", "shape": "dot", "size": 15, "title": "Raloxifene"}, {"color": "lightblue", "id": "alpha Tocopherol", "label": "alpha Tocopherol", "shape": "dot", "size": 15, "title": "alpha Tocopherol"}, {"color": "lightblue", "id": "Placebos", "label": "Placebos", "shape": "dot", "size": 15, "title": "Placebos"}, {"color": "lightblue", "id": "receptor", "label": "receptor", "shape": "dot", "size": 15, "title": "receptor"}, {"color": "lightblue", "id": "Adrenergic beta-Antagonists", "label": "Adrenergic beta-Antagonists", "shape": "dot", "size": 15, "title": "Adrenergic beta-Antagonists"}, {"color": "lightblue", "id": "Induction", "label": "Induction", "shape": "dot", "size": 15, "title": "Induction"}, {"color": "lightblue", "id": "SPDEF", "label": "SPDEF", "shape": "dot", "size": 15, "title": "SPDEF"}, {"color": "lightblue", "id": "arzoxifene", "label": "arzoxifene", "shape": "dot", "size": 15, "title": "arzoxifene"}, {"color": "lightblue", "id": "tibolone", "label": "tibolone", "shape": "dot", "size": 15, "title": "tibolone"}, {"color": "lightblue", "id": "MTSS1 gene|MTSS1", "label": "MTSS1 gene|MTSS1", "shape": "dot", "size": 15, "title": "MTSS1 gene|MTSS1"}, {"color": "lightblue", "id": "FRAP1 protein, human|MTOR", "label": "FRAP1 protein, human|MTOR", "shape": "dot", "size": 15, "title": "FRAP1 protein, human|MTOR"}, {"color": "lightblue", "id": "NF-kappa B", "label": "NF-kappa B", "shape": "dot", "size": 15, "title": "NF-kappa B"}, {"color": "lightblue", "id": "Epidermal growth factor receptor inhibitor", "label": "Epidermal growth factor receptor inhibitor", "shape": "dot", "size": 15, "title": "Epidermal growth factor receptor inhibitor"}, {"color": "lightblue", "id": "Steroidal Aromatase Inhibitor", "label": "Steroidal Aromatase Inhibitor", "shape": "dot", "size": 15, "title": "Steroidal Aromatase Inhibitor"}, {"color": "lightblue", "id": "beta-adrenergic receptor", "label": "beta-adrenergic receptor", "shape": "dot", "size": 15, "title": "beta-adrenergic receptor"}, {"color": "lightblue", "id": "Adrenergic Antagonists", "label": "Adrenergic Antagonists", "shape": "dot", "size": 15, "title": "Adrenergic Antagonists"}, {"color": "lightblue", "id": "LG 100268", "label": "LG 100268", "shape": "dot", "size": 15, "title": "LG 100268"}, {"color": "lightblue", "id": "SCAMP1 gene|SCAMP1", "label": "SCAMP1 gene|SCAMP1", "shape": "dot", "size": 15, "title": "SCAMP1 gene|SCAMP1"}, {"color": "lightblue", "id": "MIR145 gene|MIR145", "label": "MIR145 gene|MIR145", "shape": "dot", "size": 15, "title": "MIR145 gene|MIR145"}, {"color": "lightblue", "id": "Fibroblast Growth Factor Receptor 2|FGFR2", "label": "Fibroblast Growth Factor Receptor 2|FGFR2", "shape": "dot", "size": 15, "title": "Fibroblast Growth Factor Receptor 2|FGFR2"}, {"color": "lightblue", "id": "4-hydroxyestrone", "label": "4-hydroxyestrone", "shape": "dot", "size": 15, "title": "4-hydroxyestrone"}, {"color": "lightblue", "id": "Aromatase Inhibitors", "label": "Aromatase Inhibitors", "shape": "dot", "size": 15, "title": "Aromatase Inhibitors"}, {"color": "lightblue", "id": "Receptors, Interleukin-1", "label": "Receptors, Interleukin-1", "shape": "dot", "size": 15, "title": "Receptors, Interleukin-1"}, {"color": "lightblue", "id": "Insulin-Like-Growth Factor I Receptor|IGF1R", "label": "Insulin-Like-Growth Factor I Receptor|IGF1R", "shape": "dot", "size": 15, "title": "Insulin-Like-Growth Factor I Receptor|IGF1R"}, {"color": "lightblue", "id": "Detection", "label": "Detection", "shape": "dot", "size": 15, "title": "Detection"}, {"color": "lightblue", "id": "everolimus", "label": "everolimus", "shape": "dot", "size": 15, "title": "everolimus"}, {"color": "lightblue", "id": "exemestane", "label": "exemestane", "shape": "dot", "size": 15, "title": "exemestane"}, {"color": "lightblue", "id": "raloxifene", "label": "raloxifene", "shape": "dot", "size": 15, "title": "raloxifene"}, {"color": "lightblue", "id": "Toll-Like Receptor 5|TLR5", "label": "Toll-Like Receptor 5|TLR5", "shape": "dot", "size": 15, "title": "Toll-Like Receptor 5|TLR5"}, {"color": "lightblue", "id": "receptor for advanced glycation endproducts", "label": "receptor for advanced glycation endproducts", "shape": "dot", "size": 15, "title": "receptor for advanced glycation endproducts"}, {"color": "lightblue", "id": "Receptors, Nuclear", "label": "Receptors, Nuclear", "shape": "dot", "size": 15, "title": "Receptors, Nuclear"}, {"color": "lightblue", "id": "chrysoeriol", "label": "chrysoeriol", "shape": "dot", "size": 15, "title": "chrysoeriol"}]);
+                  edges = new vis.DataSet([{"color": "gray", "from": "Gonadal Steroid Hormones", "label": "0.2977023", "title": "Factuality Score: 0.2977023", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Estrogen Antagonists", "label": "0.2977023", "title": "Factuality Score: 0.2977023", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Selective Estrogen Receptor Modulators", "label": "0.2977023", "title": "Factuality Score: 0.2977023", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Tamoxifen", "label": "0.2977023", "title": "Factuality Score: 0.2977023", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Estrogen Receptors", "label": "0.2977023", "title": "Factuality Score: 0.2977023", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Phytoestrogens", "label": "0.2977023", "title": "Factuality Score: 0.2977023", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Estrogens", "label": "0.2977023", "title": "Factuality Score: 0.2977023", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Estrogen Receptor Modulators", "label": "0.2977023", "title": "Factuality Score: 0.2977023", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Estrogen Receptor beta", "label": "0.2977023", "title": "Factuality Score: 0.2977023", "to": "Female Breast Cancer"}, {"color": "gray", "from": "mullerian-inhibiting hormone", "label": "0.2977023", "title": "Factuality Score: 0.2977023", "to": "Female Breast Cancer"}, {"color": "gray", "from": "ESTROGENIC SUBSTANCES", "label": "0.2977023", "title": "Factuality Score: 0.2977023", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Estrogen Receptor alpha", "label": "0.0289710", "title": "Factuality Score: 0.0289710", "to": "Female Breast Cancer"}, {"color": "gray", "from": "tamoxifen", "label": "0.0000000", "title": "Factuality Score: 0.0000000", "to": "Female Breast Cancer"}, {"color": "gray", "from": "progesterone", "label": "0.2977023", "title": "Factuality Score: 0.2977023", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Nuclear Hormone Receptors", "label": "0.2977023", "title": "Factuality Score: 0.2977023", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Hormone Receptor", "label": "0.2977023", "title": "Factuality Score: 0.2977023", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Progesterone", "label": "0.2977023", "title": "Factuality Score: 0.2977023", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Medroxyprogesterone 17-Acetate", "label": "0.2977023", "title": "Factuality Score: 0.2977023", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Androgens", "label": "0.2977023", "title": "Factuality Score: 0.2977023", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Hormones", "label": "0.2977023", "title": "Factuality Score: 0.2977023", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Steroid hormone", "label": "0.2977023", "title": "Factuality Score: 0.2977023", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Tamoxifen Citrate", "label": "0.2977023", "title": "Factuality Score: 0.2977023", "to": "Female Breast Cancer"}, {"color": "gray", "from": "estrogens", "label": "0.2977023", "title": "Factuality Score: 0.2977023", "to": "Female Breast Cancer"}, {"color": "gray", "from": "pregnancy hormones", "label": "0.2977023", "title": "Factuality Score: 0.2977023", "to": "Female Breast Cancer"}, {"color": "gray", "from": "releasing hormones", "label": "0.2977023", "title": "Factuality Score: 0.2977023", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Estrogen-progestin preparation", "label": "0.2977023", "title": "Factuality Score: 0.2977023", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Hormone manipulation", "label": "0.2977023", "title": "Factuality Score: 0.2977023", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Estrogens, Non-Steroidal", "label": "0.2977023", "title": "Factuality Score: 0.2977023", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Androgen Receptor|AR", "label": "0.2977023", "title": "Factuality Score: 0.2977023", "to": "Female Breast Cancer"}, {"color": "gray", "from": "4-hydroxy-N-desmethyltamoxifen", "label": "0.2977023", "title": "Factuality Score: 0.2977023", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Estrogenic", "label": "0.2977023", "title": "Factuality Score: 0.2977023", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Tamoxifen 20 MG", "label": "0.2977023", "title": "Factuality Score: 0.2977023", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Sex Hormone-Binding Globulin", "label": "0.2977023", "title": "Factuality Score: 0.2977023", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Conjugated Equine Estrogens", "label": "0.2977023", "title": "Factuality Score: 0.2977023", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Estrogen Receptor beta|EREG|ESR1", "label": "0.2977023", "title": "Factuality Score: 0.2977023", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Gonadotropin-Releasing Hormone Analog", "label": "0.2977023", "title": "Factuality Score: 0.2977023", "to": "Female Breast Cancer"}, {"color": "gray", "from": "estrogens, conjugated (USP)", "label": "0.2977023", "title": "Factuality Score: 0.2977023", "to": "Female Breast Cancer"}, {"color": "gray", "from": "alpha-carotene", "label": "0.2977023", "title": "Factuality Score: 0.2977023", "to": "Female Breast Cancer"}, {"color": "gray", "from": "alpha-Fetoproteins", "label": "0.2977023", "title": "Factuality Score: 0.2977023", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Raloxifene", "label": "0.0129870", "title": "Factuality Score: 0.0129870", "to": "Female Breast Cancer"}, {"color": "gray", "from": "alpha Tocopherol", "label": "0.2977023", "title": "Factuality Score: 0.2977023", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Placebos", "label": "0.0129870", "title": "Factuality Score: 0.0129870", "to": "Female Breast Cancer"}, {"color": "gray", "from": "receptor", "label": "0.0289710", "title": "Factuality Score: 0.0289710", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Adrenergic beta-Antagonists", "label": "0.2977023", "title": "Factuality Score: 0.2977023", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Induction", "label": "0.0129870", "title": "Factuality Score: 0.0129870", "to": "Female Breast Cancer"}, {"color": "gray", "from": "SPDEF", "label": "0.0129870", "title": "Factuality Score: 0.0129870", "to": "Female Breast Cancer"}, {"color": "gray", "from": "arzoxifene", "label": "0.0129870", "title": "Factuality Score: 0.0129870", "to": "Female Breast Cancer"}, {"color": "gray", "from": "tibolone", "label": "0.0129870", "title": "Factuality Score: 0.0129870", "to": "Female Breast Cancer"}, {"color": "gray", "from": "MTSS1 gene|MTSS1", "label": "0.0000000", "title": "Factuality Score: 0.0000000", "to": "Female Breast Cancer"}, {"color": "gray", "from": "FRAP1 protein, human|MTOR", "label": "0.0000000", "title": "Factuality Score: 0.0000000", "to": "Female Breast Cancer"}, {"color": "gray", "from": "NF-kappa B", "label": "0.0000000", "title": "Factuality Score: 0.0000000", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Epidermal growth factor receptor inhibitor", "label": "0.2977023", "title": "Factuality Score: 0.2977023", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Steroidal Aromatase Inhibitor", "label": "0.0129870", "title": "Factuality Score: 0.0129870", "to": "Female Breast Cancer"}, {"color": "gray", "from": "beta-adrenergic receptor", "label": "0.0369630", "title": "Factuality Score: 0.0369630", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Adrenergic Antagonists", "label": "0.2977023", "title": "Factuality Score: 0.2977023", "to": "Female Breast Cancer"}, {"color": "gray", "from": "LG 100268", "label": "0.0129870", "title": "Factuality Score: 0.0129870", "to": "Female Breast Cancer"}, {"color": "gray", "from": "SCAMP1 gene|SCAMP1", "label": "0.0000000", "title": "Factuality Score: 0.0000000", "to": "Female Breast Cancer"}, {"color": "gray", "from": "MIR145 gene|MIR145", "label": "0.0000000", "title": "Factuality Score: 0.0000000", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Fibroblast Growth Factor Receptor 2|FGFR2", "label": "0.0369630", "title": "Factuality Score: 0.0369630", "to": "Female Breast Cancer"}, {"color": "gray", "from": "4-hydroxyestrone", "label": "0.0129870", "title": "Factuality Score: 0.0129870", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Aromatase Inhibitors", "label": "0.0129870", "title": "Factuality Score: 0.0129870", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Receptors, Interleukin-1", "label": "0.2977023", "title": "Factuality Score: 0.2977023", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Insulin-Like-Growth Factor I Receptor|IGF1R", "label": "0.2977023", "title": "Factuality Score: 0.2977023", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Detection", "label": "0.0129870", "title": "Factuality Score: 0.0129870", "to": "Female Breast Cancer"}, {"color": "gray", "from": "everolimus", "label": "0.0000000", "title": "Factuality Score: 0.0000000", "to": "Female Breast Cancer"}, {"color": "gray", "from": "exemestane", "label": "0.0129870", "title": "Factuality Score: 0.0129870", "to": "Female Breast Cancer"}, {"color": "gray", "from": "raloxifene", "label": "0.0000000", "title": "Factuality Score: 0.0000000", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Toll-Like Receptor 5|TLR5", "label": "0.2977023", "title": "Factuality Score: 0.2977023", "to": "Female Breast Cancer"}, {"color": "gray", "from": "receptor for advanced glycation endproducts", "label": "0.2977023", "title": "Factuality Score: 0.2977023", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Receptors, Nuclear", "label": "0.2977023", "title": "Factuality Score: 0.2977023", "to": "Female Breast Cancer"}, {"color": "gray", "from": "chrysoeriol", "label": "0.0000000", "title": "Factuality Score: 0.0000000", "to": "Female Breast Cancer"}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>

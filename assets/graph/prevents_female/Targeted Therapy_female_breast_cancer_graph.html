@@ -1,0 +1,155 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 600px;
+                 background-color: #ffffff;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "lightblue", "id": "trastuzumab|ERBB2", "label": "trastuzumab|ERBB2", "shape": "dot", "size": 15, "title": "trastuzumab|ERBB2"}, {"color": "lightblue", "id": "Female Breast Cancer", "label": "Female Breast Cancer", "shape": "dot", "size": 15, "title": "Female Breast Cancer"}, {"color": "lightblue", "id": "trastuzumab", "label": "trastuzumab", "shape": "dot", "size": 15, "title": "trastuzumab"}, {"color": "lightblue", "id": "lapatinib", "label": "lapatinib", "shape": "dot", "size": 15, "title": "lapatinib"}, {"color": "lightblue", "id": "antiangiogenesis therapy", "label": "antiangiogenesis therapy", "shape": "dot", "size": 15, "title": "antiangiogenesis therapy"}, {"color": "lightblue", "id": "bevacizumab", "label": "bevacizumab", "shape": "dot", "size": 15, "title": "bevacizumab"}, {"color": "lightblue", "id": "Herceptin", "label": "Herceptin", "shape": "dot", "size": 15, "title": "Herceptin"}, {"color": "lightblue", "id": "ado-trastuzumab emtansine", "label": "ado-trastuzumab emtansine", "shape": "dot", "size": 15, "title": "ado-trastuzumab emtansine"}, {"color": "lightblue", "id": "Targeted Therapy", "label": "Targeted Therapy", "shape": "dot", "size": 15, "title": "Targeted Therapy"}, {"color": "lightblue", "id": "ado-trastuzumab emtansine|DMPK|IGHD1-7", "label": "ado-trastuzumab emtansine|DMPK|IGHD1-7", "shape": "dot", "size": 15, "title": "ado-trastuzumab emtansine|DMPK|IGHD1-7"}, {"color": "lightblue", "id": "trastuzumab deruxtecan", "label": "trastuzumab deruxtecan", "shape": "dot", "size": 15, "title": "trastuzumab deruxtecan"}, {"color": "lightblue", "id": "fam-trastuzumab deruxtecan-nxki", "label": "fam-trastuzumab deruxtecan-nxki", "shape": "dot", "size": 15, "title": "fam-trastuzumab deruxtecan-nxki"}, {"color": "lightblue", "id": "Targeted Therapy Agent", "label": "Targeted Therapy Agent", "shape": "dot", "size": 15, "title": "Targeted Therapy Agent"}, {"color": "lightblue", "id": "Molecular Targeted Therapy", "label": "Molecular Targeted Therapy", "shape": "dot", "size": 15, "title": "Molecular Targeted Therapy"}, {"color": "lightblue", "id": "Bevacizumab/Paclitaxel", "label": "Bevacizumab/Paclitaxel", "shape": "dot", "size": 15, "title": "Bevacizumab/Paclitaxel"}, {"color": "lightblue", "id": "Docetaxel/Trastuzumab", "label": "Docetaxel/Trastuzumab", "shape": "dot", "size": 15, "title": "Docetaxel/Trastuzumab"}, {"color": "lightblue", "id": "Pertuzumab/Trastuzumab Regimen", "label": "Pertuzumab/Trastuzumab Regimen", "shape": "dot", "size": 15, "title": "Pertuzumab/Trastuzumab Regimen"}, {"color": "lightblue", "id": "Trastuzumab Biosimilar ABP 980|AOC1|SHBG", "label": "Trastuzumab Biosimilar ABP 980|AOC1|SHBG", "shape": "dot", "size": 15, "title": "Trastuzumab Biosimilar ABP 980|AOC1|SHBG"}, {"color": "lightblue", "id": "Bevacizumab/Capecitabine", "label": "Bevacizumab/Capecitabine", "shape": "dot", "size": 15, "title": "Bevacizumab/Capecitabine"}, {"color": "lightblue", "id": "AC Followed by Docetaxel/Trastuzumab Regimen", "label": "AC Followed by Docetaxel/Trastuzumab Regimen", "shape": "dot", "size": 15, "title": "AC Followed by Docetaxel/Trastuzumab Regimen"}, {"color": "lightblue", "id": "Eribulin/Trastuzumab Regimen", "label": "Eribulin/Trastuzumab Regimen", "shape": "dot", "size": 15, "title": "Eribulin/Trastuzumab Regimen"}, {"color": "lightblue", "id": "Trastuzumab Regimen", "label": "Trastuzumab Regimen", "shape": "dot", "size": 15, "title": "Trastuzumab Regimen"}, {"color": "lightblue", "id": "Capecitabine/Lapatinib Regimen", "label": "Capecitabine/Lapatinib Regimen", "shape": "dot", "size": 15, "title": "Capecitabine/Lapatinib Regimen"}, {"color": "lightblue", "id": "Bevacizumab Regimen", "label": "Bevacizumab Regimen", "shape": "dot", "size": 15, "title": "Bevacizumab Regimen"}, {"color": "lightblue", "id": "bevacizumab|VEGFA", "label": "bevacizumab|VEGFA", "shape": "dot", "size": 15, "title": "bevacizumab|VEGFA"}, {"color": "lightblue", "id": "Trastuzumab/Nab-paclitaxel Regimen", "label": "Trastuzumab/Nab-paclitaxel Regimen", "shape": "dot", "size": 15, "title": "Trastuzumab/Nab-paclitaxel Regimen"}, {"color": "lightblue", "id": "Paclitaxel/Trastuzumab", "label": "Paclitaxel/Trastuzumab", "shape": "dot", "size": 15, "title": "Paclitaxel/Trastuzumab"}, {"color": "lightblue", "id": "Docetaxel/Trastuzumab Regimen", "label": "Docetaxel/Trastuzumab Regimen", "shape": "dot", "size": 15, "title": "Docetaxel/Trastuzumab Regimen"}, {"color": "lightblue", "id": "Anastrozole/Trastuzumab Regimen", "label": "Anastrozole/Trastuzumab Regimen", "shape": "dot", "size": 15, "title": "Anastrozole/Trastuzumab Regimen"}, {"color": "lightblue", "id": "Paclitaxel/Trastuzumab Regimen", "label": "Paclitaxel/Trastuzumab Regimen", "shape": "dot", "size": 15, "title": "Paclitaxel/Trastuzumab Regimen"}, {"color": "lightblue", "id": "Herceptin|EREG|ESR1", "label": "Herceptin|EREG|ESR1", "shape": "dot", "size": 15, "title": "Herceptin|EREG|ESR1"}, {"color": "lightblue", "id": "Trastuzumab/Vinorelbine", "label": "Trastuzumab/Vinorelbine", "shape": "dot", "size": 15, "title": "Trastuzumab/Vinorelbine"}, {"color": "lightblue", "id": "ADO-TRASTUZUMAB", "label": "ADO-TRASTUZUMAB", "shape": "dot", "size": 15, "title": "ADO-TRASTUZUMAB"}, {"color": "lightblue", "id": "Lapatinib/Trastuzumab Regimen", "label": "Lapatinib/Trastuzumab Regimen", "shape": "dot", "size": 15, "title": "Lapatinib/Trastuzumab Regimen"}, {"color": "lightblue", "id": "Trastuzumab Biosimilar SB3", "label": "Trastuzumab Biosimilar SB3", "shape": "dot", "size": 15, "title": "Trastuzumab Biosimilar SB3"}, {"color": "lightblue", "id": "Current Therapy", "label": "Current Therapy", "shape": "dot", "size": 15, "title": "Current Therapy"}, {"color": "lightblue", "id": "directive therapy", "label": "directive therapy", "shape": "dot", "size": 15, "title": "directive therapy"}, {"color": "lightblue", "id": "Local Therapy", "label": "Local Therapy", "shape": "dot", "size": 15, "title": "Local Therapy"}, {"color": "lightblue", "id": "Estrogen Therapy", "label": "Estrogen Therapy", "shape": "dot", "size": 15, "title": "Estrogen Therapy"}, {"color": "lightblue", "id": "Molecular Target", "label": "Molecular Target", "shape": "dot", "size": 15, "title": "Molecular Target"}, {"color": "lightblue", "id": "Targeted Toxins", "label": "Targeted Toxins", "shape": "dot", "size": 15, "title": "Targeted Toxins"}, {"color": "lightblue", "id": "targeted prevention", "label": "targeted prevention", "shape": "dot", "size": 15, "title": "targeted prevention"}, {"color": "lightblue", "id": "Radical therapy", "label": "Radical therapy", "shape": "dot", "size": 15, "title": "Radical therapy"}]);
+                  edges = new vis.DataSet([{"color": "gray", "from": "trastuzumab|ERBB2", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "trastuzumab", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "lapatinib", "label": "0.0419580", "title": "Factuality Score: 0.0419580", "to": "Female Breast Cancer"}, {"color": "gray", "from": "antiangiogenesis therapy", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "bevacizumab", "label": "0.0419580", "title": "Factuality Score: 0.0419580", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Herceptin", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "ado-trastuzumab emtansine", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Targeted Therapy", "label": "0.0289710", "title": "Factuality Score: 0.0289710", "to": "Female Breast Cancer"}, {"color": "gray", "from": "ado-trastuzumab emtansine|DMPK|IGHD1-7", "label": "0.0089910", "title": "Factuality Score: 0.0089910", "to": "Female Breast Cancer"}, {"color": "gray", "from": "trastuzumab deruxtecan", "label": "0.0089910", "title": "Factuality Score: 0.0089910", "to": "Female Breast Cancer"}, {"color": "gray", "from": "fam-trastuzumab deruxtecan-nxki", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Targeted Therapy Agent", "label": "0.0009990", "title": "Factuality Score: 0.0009990", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Molecular Targeted Therapy", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Bevacizumab/Paclitaxel", "label": "0.0289710", "title": "Factuality Score: 0.0289710", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Docetaxel/Trastuzumab", "label": "0.0289710", "title": "Factuality Score: 0.0289710", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Pertuzumab/Trastuzumab Regimen", "label": "0.0089910", "title": "Factuality Score: 0.0089910", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Trastuzumab Biosimilar ABP 980|AOC1|SHBG", "label": "0.0089910", "title": "Factuality Score: 0.0089910", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Bevacizumab/Capecitabine", "label": "0.0019980", "title": "Factuality Score: 0.0019980", "to": "Female Breast Cancer"}, {"color": "gray", "from": "AC Followed by Docetaxel/Trastuzumab Regimen", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Eribulin/Trastuzumab Regimen", "label": "0.0289710", "title": "Factuality Score: 0.0289710", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Trastuzumab Regimen", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Capecitabine/Lapatinib Regimen", "label": "0.0089910", "title": "Factuality Score: 0.0089910", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Bevacizumab Regimen", "label": "0.0019980", "title": "Factuality Score: 0.0019980", "to": "Female Breast Cancer"}, {"color": "gray", "from": "bevacizumab|VEGFA", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Trastuzumab/Nab-paclitaxel Regimen", "label": "0.0089910", "title": "Factuality Score: 0.0089910", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Paclitaxel/Trastuzumab", "label": "0.0089910", "title": "Factuality Score: 0.0089910", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Docetaxel/Trastuzumab Regimen", "label": "0.0089910", "title": "Factuality Score: 0.0089910", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Anastrozole/Trastuzumab Regimen", "label": "0.0109890", "title": "Factuality Score: 0.0109890", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Paclitaxel/Trastuzumab Regimen", "label": "0.0289710", "title": "Factuality Score: 0.0289710", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Herceptin|EREG|ESR1", "label": "0.0419580", "title": "Factuality Score: 0.0419580", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Trastuzumab/Vinorelbine", "label": "0.0059940", "title": "Factuality Score: 0.0059940", "to": "Female Breast Cancer"}, {"color": "gray", "from": "ADO-TRASTUZUMAB", "label": "0.0089910", "title": "Factuality Score: 0.0089910", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Lapatinib/Trastuzumab Regimen", "label": "0.0089910", "title": "Factuality Score: 0.0089910", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Trastuzumab Biosimilar SB3", "label": "0.0089910", "title": "Factuality Score: 0.0089910", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Current Therapy", "label": "0.0089910", "title": "Factuality Score: 0.0089910", "to": "Female Breast Cancer"}, {"color": "gray", "from": "directive therapy", "label": "0.0089910", "title": "Factuality Score: 0.0089910", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Local Therapy", "label": "0.0089910", "title": "Factuality Score: 0.0089910", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Estrogen Therapy", "label": "0.0089910", "title": "Factuality Score: 0.0089910", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Molecular Target", "label": "0.0089910", "title": "Factuality Score: 0.0089910", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Targeted Toxins", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "targeted prevention", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Radical therapy", "label": "0.0089910", "title": "Factuality Score: 0.0089910", "to": "Female Breast Cancer"}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>

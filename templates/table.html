@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Table Viewer</title>
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Table: {{ table_path.split('/')[-1] }}</h1>
+    <table>
+        <thead>
+            <tr>
+                <!-- Assuming you know the number of columns beforehand; adjust as needed -->
+                <th>title </th>
+                <th>factuality_score</th>
+                <th>Column 3</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% with open(table_path) as f %}
+                {% set reader = f.read() %}
+                {% for line in reader.splitlines() %}
+                    <tr>
+                        {% for cell in line.split(',') %}
+                            <td>{{ cell }}</td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            {% endwith %}
+        </tbody>
+    </table>
+    <br>
+    <a href="/">Back to Home</a>
+</body>
+</html>

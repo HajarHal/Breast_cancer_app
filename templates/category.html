@@ -38,7 +38,7 @@
   <div class="branding d-flex align-items-center">
 
     <div class="container position-relative d-flex align-items-center justify-content-end">
-      <a href="/" class="logo d-flex align-items-center me-auto">
+      <a href="index.html" class="logo d-flex align-items-center me-auto">
         <img src="/assets/img/logo.png" alt="">
         <!-- Uncomment the line below if you also wish to use a text logo -->
         <!-- <h1 class="sitename">Medicio</h1>  -->
@@ -46,14 +46,13 @@
 
       <nav id="navmenu" class="navmenu">
         <ul>
-         <li><a href="/#hero" >Home</a></li>
-          <li><a href="/#about">About</a></li>
-          <li><a href="/#services">Services</a></li>
-          <li><a href="/#footer">Contact</a></li>
-            <li><a href="#features" class="active" >choose category</a></li>
+          <li><a href="/#hero" class="active">Home</a></li>
+          <li><a href="#footer">Contact</a></li>
         </ul>
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav>
+
+      <a class="cta-btn" href="causes_sta.html">show probability</a>
 
     </div>
 
@@ -63,9 +62,7 @@
 <main class="main">
         <section id="features" class="features section">
             <div class="container">
-                <div class="container section-title" data-aos="fade-up">
-                  <h2 class="mb-3">{{ category_type.title() }} Graphs for {{ cancer_type.replace('_', ' ').title() }}<br></h2>
-                 </div>
+                <h2 class="mb-3">{{ category_type.title() }} Graphs for {{ cancer_type.replace('_', ' ').title() }}</h2>
                 <div class="row gy-4 justify-content-center">
                     {% for graph, filename in graphs %}
                     <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="{{ loop.index0 * 100 + 200 }}">
@@ -89,11 +86,47 @@
 
   <footer id="footer" class="footer light-background">
 
+    <div class="container footer-top">
+      <div class="row gy-4">
+        <div class="col-lg-4 col-md-6 footer-about">
+          <a href="index.html" class="logo d-flex align-items-center">
+            <span class="sitename">BREASTPULSE</span>
+          </a>
+          <div class="footer-contact pt-3">
+            <p> International University of Rabat Technopolis Rabat-Shore Rocade </p>
+            <p>Rabat-Salé </p>
+            <p class="mt-3"><strong>Phone:</strong> <span>+212 660559444</span></p>
+            <p><strong>Email:</strong> <span>info@example.com</span></p>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6 footer-social-media">
+      <h4>About Social Media Links</h4>
+      <p>Stay connected with us through our social media channels for the latest updates and news.</p>
+      <div class="social-links d-flex mt-4">
+        <a href=""><i class="bi bi-twitter-x"></i></a>
+        <a href=""><i class="bi bi-facebook"></i></a>
+        <a href=""><i class="bi bi-instagram"></i></a>
+        <a href=""><i class="bi bi-linkedin"></i></a>
+      </div>
+    </div>
 
+        <div class="col-lg-2 col-md-3 footer-links">
+          <h4>Useful Links</h4>
+          <ul>
+            <li><a href="index.html#featured-services">Home</a></li>
+            <li><a href="#about">About us</a></li>
+            <li><a href="#services">Services</a></li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
 
     <div class="container copyright text-center mt-4">
       <p>© <span>Copyright</span> <strong class="px-1 sitename">BREASTPULSE</strong> <span>All Rights Reserved</span></p>
-
+      <div class="credits">
+        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+      </div>
     </div>
 
   </footer>

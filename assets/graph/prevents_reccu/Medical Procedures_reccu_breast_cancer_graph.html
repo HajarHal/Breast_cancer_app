@@ -1,0 +1,155 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 600px;
+                 background-color: #ffffff;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "lightblue", "id": "Endocrine therapy", "label": "Endocrine therapy", "shape": "dot", "size": 15, "title": "Endocrine therapy"}, {"color": "lightblue", "id": "Recurrent Breast Cancer", "label": "Recurrent Breast Cancer", "shape": "dot", "size": 15, "title": "Recurrent Breast Cancer"}, {"color": "lightblue", "id": "Therapeutic procedure", "label": "Therapeutic procedure", "shape": "dot", "size": 15, "title": "Therapeutic procedure"}, {"color": "lightblue", "id": "adjuvant therapy", "label": "adjuvant therapy", "shape": "dot", "size": 15, "title": "adjuvant therapy"}, {"color": "lightblue", "id": "Cancer Treatment", "label": "Cancer Treatment", "shape": "dot", "size": 15, "title": "Cancer Treatment"}, {"color": "lightblue", "id": "Operative Surgical Procedures", "label": "Operative Surgical Procedures", "shape": "dot", "size": 15, "title": "Operative Surgical Procedures"}, {"color": "lightblue", "id": "Breast-Conserving Surgery", "label": "Breast-Conserving Surgery", "shape": "dot", "size": 15, "title": "Breast-Conserving Surgery"}, {"color": "lightblue", "id": "Radiation therapy", "label": "Radiation therapy", "shape": "dot", "size": 15, "title": "Radiation therapy"}, {"color": "lightblue", "id": "Oestrogen therapy", "label": "Oestrogen therapy", "shape": "dot", "size": 15, "title": "Oestrogen therapy"}, {"color": "lightblue", "id": "Treatment Protocols", "label": "Treatment Protocols", "shape": "dot", "size": 15, "title": "Treatment Protocols"}, {"color": "lightblue", "id": "Maintenance therapy", "label": "Maintenance therapy", "shape": "dot", "size": 15, "title": "Maintenance therapy"}, {"color": "lightblue", "id": "Pharmacotherapy", "label": "Pharmacotherapy", "shape": "dot", "size": 15, "title": "Pharmacotherapy"}, {"color": "lightblue", "id": "Mastectomy", "label": "Mastectomy", "shape": "dot", "size": 15, "title": "Mastectomy"}, {"color": "lightblue", "id": "Bariatric Surgery", "label": "Bariatric Surgery", "shape": "dot", "size": 15, "title": "Bariatric Surgery"}, {"color": "lightblue", "id": "Hormone replacement therapy", "label": "Hormone replacement therapy", "shape": "dot", "size": 15, "title": "Hormone replacement therapy"}, {"color": "lightblue", "id": "Proto-Oncogene Protein pp60 (c-src)|SRC", "label": "Proto-Oncogene Protein pp60 (c-src)|SRC", "shape": "dot", "size": 15, "title": "Proto-Oncogene Protein pp60 (c-src)|SRC"}, {"color": "lightblue", "id": "Retinoids", "label": "Retinoids", "shape": "dot", "size": 15, "title": "Retinoids"}, {"color": "lightblue", "id": "Aromatase Inhibitors", "label": "Aromatase Inhibitors", "shape": "dot", "size": 15, "title": "Aromatase Inhibitors"}, {"color": "lightblue", "id": "exemestane", "label": "exemestane", "shape": "dot", "size": 15, "title": "exemestane"}, {"color": "lightblue", "id": "UCHL1 Antigens", "label": "UCHL1 Antigens", "shape": "dot", "size": 15, "title": "UCHL1 Antigens"}, {"color": "lightblue", "id": "Diphosphonates", "label": "Diphosphonates", "shape": "dot", "size": 15, "title": "Diphosphonates"}, {"color": "lightblue", "id": "zoledronic acid", "label": "zoledronic acid", "shape": "dot", "size": 15, "title": "zoledronic acid"}, {"color": "lightblue", "id": "Hydroxymethylglutaryl-CoA Reductase Inhibitors", "label": "Hydroxymethylglutaryl-CoA Reductase Inhibitors", "shape": "dot", "size": 15, "title": "Hydroxymethylglutaryl-CoA Reductase Inhibitors"}, {"color": "lightblue", "id": "Prevention", "label": "Prevention", "shape": "dot", "size": 15, "title": "Prevention"}, {"color": "lightblue", "id": "AR gene|AR", "label": "AR gene|AR", "shape": "dot", "size": 15, "title": "AR gene|AR"}, {"color": "lightblue", "id": "letrozole", "label": "letrozole", "shape": "dot", "size": 15, "title": "letrozole"}, {"color": "lightblue", "id": "celecoxib", "label": "celecoxib", "shape": "dot", "size": 15, "title": "celecoxib"}, {"color": "lightblue", "id": "Niacinamide", "label": "Niacinamide", "shape": "dot", "size": 15, "title": "Niacinamide"}, {"color": "lightblue", "id": "MAP2K1 gene|MAP2K1", "label": "MAP2K1 gene|MAP2K1", "shape": "dot", "size": 15, "title": "MAP2K1 gene|MAP2K1"}, {"color": "lightblue", "id": "LRRC3B gene|LRRC3B", "label": "LRRC3B gene|LRRC3B", "shape": "dot", "size": 15, "title": "LRRC3B gene|LRRC3B"}, {"color": "lightblue", "id": "anastrozole", "label": "anastrozole", "shape": "dot", "size": 15, "title": "anastrozole"}, {"color": "lightblue", "id": "FOXM1", "label": "FOXM1", "shape": "dot", "size": 15, "title": "FOXM1"}, {"color": "lightblue", "id": "Insulin|INS", "label": "Insulin|INS", "shape": "dot", "size": 15, "title": "Insulin|INS"}, {"color": "lightblue", "id": "Carotenoids", "label": "Carotenoids", "shape": "dot", "size": 15, "title": "Carotenoids"}, {"color": "lightblue", "id": "Booster", "label": "Booster", "shape": "dot", "size": 15, "title": "Booster"}, {"color": "lightblue", "id": "trastuzumab", "label": "trastuzumab", "shape": "dot", "size": 15, "title": "trastuzumab"}, {"color": "lightblue", "id": "IGF1 gene|IGF1", "label": "IGF1 gene|IGF1", "shape": "dot", "size": 15, "title": "IGF1 gene|IGF1"}, {"color": "lightblue", "id": "Anti-Inflammatory Agents, Non-Steroidal", "label": "Anti-Inflammatory Agents, Non-Steroidal", "shape": "dot", "size": 15, "title": "Anti-Inflammatory Agents, Non-Steroidal"}, {"color": "lightblue", "id": "oleocanthal", "label": "oleocanthal", "shape": "dot", "size": 15, "title": "oleocanthal"}, {"color": "lightblue", "id": "cancer care", "label": "cancer care", "shape": "dot", "size": 15, "title": "cancer care"}, {"color": "lightblue", "id": "Placebos", "label": "Placebos", "shape": "dot", "size": 15, "title": "Placebos"}, {"color": "lightblue", "id": "cyclooxygenase 2", "label": "cyclooxygenase 2", "shape": "dot", "size": 15, "title": "cyclooxygenase 2"}, {"color": "lightblue", "id": "Insulin-Like Growth Factor I", "label": "Insulin-Like Growth Factor I", "shape": "dot", "size": 15, "title": "Insulin-Like Growth Factor I"}, {"color": "lightblue", "id": "ferric oxide", "label": "ferric oxide", "shape": "dot", "size": 15, "title": "ferric oxide"}, {"color": "lightblue", "id": "Phosphotransferases", "label": "Phosphotransferases", "shape": "dot", "size": 15, "title": "Phosphotransferases"}, {"color": "lightblue", "id": "PAWR gene|PAWR", "label": "PAWR gene|PAWR", "shape": "dot", "size": 15, "title": "PAWR gene|PAWR"}, {"color": "lightblue", "id": "Antidepressive Agents", "label": "Antidepressive Agents", "shape": "dot", "size": 15, "title": "Antidepressive Agents"}, {"color": "lightblue", "id": "Fluorouracil", "label": "Fluorouracil", "shape": "dot", "size": 15, "title": "Fluorouracil"}, {"color": "lightblue", "id": "Basin", "label": "Basin", "shape": "dot", "size": 15, "title": "Basin"}]);
+                  edges = new vis.DataSet([{"color": "gray", "from": "Endocrine therapy", "label": "0.0429570", "title": "Factuality Score: 0.0429570", "to": "Recurrent Breast Cancer"}, {"color": "gray", "from": "Therapeutic procedure", "label": "0.0429570", "title": "Factuality Score: 0.0429570", "to": "Recurrent Breast Cancer"}, {"color": "gray", "from": "adjuvant therapy", "label": "0.0429570", "title": "Factuality Score: 0.0429570", "to": "Recurrent Breast Cancer"}, {"color": "gray", "from": "Cancer Treatment", "label": "0.0429570", "title": "Factuality Score: 0.0429570", "to": "Recurrent Breast Cancer"}, {"color": "gray", "from": "Operative Surgical Procedures", "label": "0.0429570", "title": "Factuality Score: 0.0429570", "to": "Recurrent Breast Cancer"}, {"color": "gray", "from": "Breast-Conserving Surgery", "label": "0.0429570", "title": "Factuality Score: 0.0429570", "to": "Recurrent Breast Cancer"}, {"color": "gray", "from": "Radiation therapy", "label": "0.0429570", "title": "Factuality Score: 0.0429570", "to": "Recurrent Breast Cancer"}, {"color": "gray", "from": "Oestrogen therapy", "label": "0.0429570", "title": "Factuality Score: 0.0429570", "to": "Recurrent Breast Cancer"}, {"color": "gray", "from": "Treatment Protocols", "label": "0.0429570", "title": "Factuality Score: 0.0429570", "to": "Recurrent Breast Cancer"}, {"color": "gray", "from": "Maintenance therapy", "label": "0.0429570", "title": "Factuality Score: 0.0429570", "to": "Recurrent Breast Cancer"}, {"color": "gray", "from": "Pharmacotherapy", "label": "0.0429570", "title": "Factuality Score: 0.0429570", "to": "Recurrent Breast Cancer"}, {"color": "gray", "from": "Mastectomy", "label": "0.0429570", "title": "Factuality Score: 0.0429570", "to": "Recurrent Breast Cancer"}, {"color": "gray", "from": "Bariatric Surgery", "label": "0.0429570", "title": "Factuality Score: 0.0429570", "to": "Recurrent Breast Cancer"}, {"color": "gray", "from": "Hormone replacement therapy", "label": "0.0429570", "title": "Factuality Score: 0.0429570", "to": "Recurrent Breast Cancer"}, {"color": "gray", "from": "Proto-Oncogene Protein pp60 (c-src)|SRC", "label": "0.0429570", "title": "Factuality Score: 0.0429570", "to": "Recurrent Breast Cancer"}, {"color": "gray", "from": "Retinoids", "label": "0.0429570", "title": "Factuality Score: 0.0429570", "to": "Recurrent Breast Cancer"}, {"color": "gray", "from": "Aromatase Inhibitors", "label": "0.0429570", "title": "Factuality Score: 0.0429570", "to": "Recurrent Breast Cancer"}, {"color": "gray", "from": "exemestane", "label": "0.0429570", "title": "Factuality Score: 0.0429570", "to": "Recurrent Breast Cancer"}, {"color": "gray", "from": "UCHL1 Antigens", "label": "0.0429570", "title": "Factuality Score: 0.0429570", "to": "Recurrent Breast Cancer"}, {"color": "gray", "from": "Diphosphonates", "label": "0.0429570", "title": "Factuality Score: 0.0429570", "to": "Recurrent Breast Cancer"}, {"color": "gray", "from": "zoledronic acid", "label": "0.0429570", "title": "Factuality Score: 0.0429570", "to": "Recurrent Breast Cancer"}, {"color": "gray", "from": "Hydroxymethylglutaryl-CoA Reductase Inhibitors", "label": "0.0429570", "title": "Factuality Score: 0.0429570", "to": "Recurrent Breast Cancer"}, {"color": "gray", "from": "Prevention", "label": "0.0429570", "title": "Factuality Score: 0.0429570", "to": "Recurrent Breast Cancer"}, {"color": "gray", "from": "AR gene|AR", "label": "0.0429570", "title": "Factuality Score: 0.0429570", "to": "Recurrent Breast Cancer"}, {"color": "gray", "from": "letrozole", "label": "0.0429570", "title": "Factuality Score: 0.0429570", "to": "Recurrent Breast Cancer"}, {"color": "gray", "from": "celecoxib", "label": "0.0429570", "title": "Factuality Score: 0.0429570", "to": "Recurrent Breast Cancer"}, {"color": "gray", "from": "Niacinamide", "label": "0.0429570", "title": "Factuality Score: 0.0429570", "to": "Recurrent Breast Cancer"}, {"color": "gray", "from": "MAP2K1 gene|MAP2K1", "label": "0.0429570", "title": "Factuality Score: 0.0429570", "to": "Recurrent Breast Cancer"}, {"color": "gray", "from": "LRRC3B gene|LRRC3B", "label": "0.0429570", "title": "Factuality Score: 0.0429570", "to": "Recurrent Breast Cancer"}, {"color": "gray", "from": "anastrozole", "label": "0.0429570", "title": "Factuality Score: 0.0429570", "to": "Recurrent Breast Cancer"}, {"color": "gray", "from": "FOXM1", "label": "0.0429570", "title": "Factuality Score: 0.0429570", "to": "Recurrent Breast Cancer"}, {"color": "gray", "from": "Insulin|INS", "label": "0.0429570", "title": "Factuality Score: 0.0429570", "to": "Recurrent Breast Cancer"}, {"color": "gray", "from": "Carotenoids", "label": "0.0429570", "title": "Factuality Score: 0.0429570", "to": "Recurrent Breast Cancer"}, {"color": "gray", "from": "Booster", "label": "0.0429570", "title": "Factuality Score: 0.0429570", "to": "Recurrent Breast Cancer"}, {"color": "gray", "from": "trastuzumab", "label": "0.0429570", "title": "Factuality Score: 0.0429570", "to": "Recurrent Breast Cancer"}, {"color": "gray", "from": "IGF1 gene|IGF1", "label": "0.0429570", "title": "Factuality Score: 0.0429570", "to": "Recurrent Breast Cancer"}, {"color": "gray", "from": "Anti-Inflammatory Agents, Non-Steroidal", "label": "0.0429570", "title": "Factuality Score: 0.0429570", "to": "Recurrent Breast Cancer"}, {"color": "gray", "from": "oleocanthal", "label": "0.0429570", "title": "Factuality Score: 0.0429570", "to": "Recurrent Breast Cancer"}, {"color": "gray", "from": "cancer care", "label": "0.0429570", "title": "Factuality Score: 0.0429570", "to": "Recurrent Breast Cancer"}, {"color": "gray", "from": "Placebos", "label": "0.0429570", "title": "Factuality Score: 0.0429570", "to": "Recurrent Breast Cancer"}, {"color": "gray", "from": "cyclooxygenase 2", "label": "0.0429570", "title": "Factuality Score: 0.0429570", "to": "Recurrent Breast Cancer"}, {"color": "gray", "from": "Insulin-Like Growth Factor I", "label": "0.0429570", "title": "Factuality Score: 0.0429570", "to": "Recurrent Breast Cancer"}, {"color": "gray", "from": "ferric oxide", "label": "0.0429570", "title": "Factuality Score: 0.0429570", "to": "Recurrent Breast Cancer"}, {"color": "gray", "from": "Phosphotransferases", "label": "0.0019980", "title": "Factuality Score: 0.0019980", "to": "Recurrent Breast Cancer"}, {"color": "gray", "from": "PAWR gene|PAWR", "label": "0.0429570", "title": "Factuality Score: 0.0429570", "to": "Recurrent Breast Cancer"}, {"color": "gray", "from": "Antidepressive Agents", "label": "0.0429570", "title": "Factuality Score: 0.0429570", "to": "Recurrent Breast Cancer"}, {"color": "gray", "from": "Fluorouracil", "label": "0.0429570", "title": "Factuality Score: 0.0429570", "to": "Recurrent Breast Cancer"}, {"color": "gray", "from": "Basin", "label": "0.0429570", "title": "Factuality Score: 0.0429570", "to": "Recurrent Breast Cancer"}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>

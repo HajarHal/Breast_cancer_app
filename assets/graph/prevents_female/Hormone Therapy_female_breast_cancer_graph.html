@@ -1,0 +1,250 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 600px;
+                 background-color: #ffffff;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+             #loadingBar {
+                 position:absolute;
+                 top:0px;
+                 left:0px;
+                 width: 100%;
+                 height: 600px;
+                 background-color:rgba(200,200,200,0.8);
+                 -webkit-transition: all 0.5s ease;
+                 -moz-transition: all 0.5s ease;
+                 -ms-transition: all 0.5s ease;
+                 -o-transition: all 0.5s ease;
+                 transition: all 0.5s ease;
+                 opacity:1;
+             }
+
+             #bar {
+                 position:absolute;
+                 top:0px;
+                 left:0px;
+                 width:20px;
+                 height:20px;
+                 margin:auto auto auto auto;
+                 border-radius:11px;
+                 border:2px solid rgba(30,30,30,0.05);
+                 background: rgb(0, 173, 246); /* Old browsers */
+                 box-shadow: 2px 0px 4px rgba(0,0,0,0.4);
+             }
+
+             #border {
+                 position:absolute;
+                 top:10px;
+                 left:10px;
+                 width:500px;
+                 height:23px;
+                 margin:auto auto auto auto;
+                 box-shadow: 0px 0px 4px rgba(0,0,0,0.2);
+                 border-radius:10px;
+             }
+
+             #text {
+                 position:absolute;
+                 top:8px;
+                 left:530px;
+                 width:30px;
+                 height:50px;
+                 margin:auto auto auto auto;
+                 font-size:22px;
+                 color: #000000;
+             }
+
+             div.outerBorder {
+                 position:relative;
+                 top:400px;
+                 width:600px;
+                 height:44px;
+                 margin:auto auto auto auto;
+                 border:8px solid rgba(0,0,0,0.1);
+                 background: rgb(252,252,252); /* Old browsers */
+                 background: -moz-linear-gradient(top,  rgba(252,252,252,1) 0%, rgba(237,237,237,1) 100%); /* FF3.6+ */
+                 background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(252,252,252,1)), color-stop(100%,rgba(237,237,237,1))); /* Chrome,Safari4+ */
+                 background: -webkit-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* Chrome10+,Safari5.1+ */
+                 background: -o-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* Opera 11.10+ */
+                 background: -ms-linear-gradient(top,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* IE10+ */
+                 background: linear-gradient(to bottom,  rgba(252,252,252,1) 0%,rgba(237,237,237,1) 100%); /* W3C */
+                 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfcfc', endColorstr='#ededed',GradientType=0 ); /* IE6-9 */
+                 border-radius:72px;
+                 box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+             }
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+            <div id="loadingBar">
+              <div class="outerBorder">
+                <div id="text">0%</div>
+                <div id="border">
+                  <div id="bar"></div>
+                </div>
+              </div>
+            </div>
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "lightblue", "id": "Tamoxifen", "label": "Tamoxifen", "shape": "dot", "size": 15, "title": "Tamoxifen"}, {"color": "lightblue", "id": "Female Breast Cancer", "label": "Female Breast Cancer", "shape": "dot", "size": 15, "title": "Female Breast Cancer"}, {"color": "lightblue", "id": "Hormone replacement therapy", "label": "Hormone replacement therapy", "shape": "dot", "size": 15, "title": "Hormone replacement therapy"}, {"color": "lightblue", "id": "Phytoestrogens", "label": "Phytoestrogens", "shape": "dot", "size": 15, "title": "Phytoestrogens"}, {"color": "lightblue", "id": "Estrogens, Synthetic", "label": "Estrogens, Synthetic", "shape": "dot", "size": 15, "title": "Estrogens, Synthetic"}, {"color": "lightblue", "id": "Aromatase Inhibitors", "label": "Aromatase Inhibitors", "shape": "dot", "size": 15, "title": "Aromatase Inhibitors"}, {"color": "lightblue", "id": "Estrogens", "label": "Estrogens", "shape": "dot", "size": 15, "title": "Estrogens"}, {"color": "lightblue", "id": "estrone sulfate", "label": "estrone sulfate", "shape": "dot", "size": 15, "title": "estrone sulfate"}, {"color": "lightblue", "id": "Progestins", "label": "Progestins", "shape": "dot", "size": 15, "title": "Progestins"}, {"color": "lightblue", "id": "Estrogen Replacement Therapy", "label": "Estrogen Replacement Therapy", "shape": "dot", "size": 15, "title": "Estrogen Replacement Therapy"}, {"color": "lightblue", "id": "Raloxifene", "label": "Raloxifene", "shape": "dot", "size": 15, "title": "Raloxifene"}, {"color": "lightblue", "id": "Diethylstilbestrol", "label": "Diethylstilbestrol", "shape": "dot", "size": 15, "title": "Diethylstilbestrol"}, {"color": "lightblue", "id": "Gonadotropin-Releasing Hormone Analog", "label": "Gonadotropin-Releasing Hormone Analog", "shape": "dot", "size": 15, "title": "Gonadotropin-Releasing Hormone Analog"}, {"color": "lightblue", "id": "Non-Steroidal Aromatase Inhibitor", "label": "Non-Steroidal Aromatase Inhibitor", "shape": "dot", "size": 15, "title": "Non-Steroidal Aromatase Inhibitor"}, {"color": "lightblue", "id": "Buserelin|EREG|ESR1", "label": "Buserelin|EREG|ESR1", "shape": "dot", "size": 15, "title": "Buserelin|EREG|ESR1"}, {"color": "lightblue", "id": "Medroxyprogesterone 17-Acetate", "label": "Medroxyprogesterone 17-Acetate", "shape": "dot", "size": 15, "title": "Medroxyprogesterone 17-Acetate"}, {"color": "lightblue", "id": "Megestrol Acetate", "label": "Megestrol Acetate", "shape": "dot", "size": 15, "title": "Megestrol Acetate"}, {"color": "lightblue", "id": "Estrone", "label": "Estrone", "shape": "dot", "size": 15, "title": "Estrone"}, {"color": "lightblue", "id": "Androgen Antagonists", "label": "Androgen Antagonists", "shape": "dot", "size": 15, "title": "Androgen Antagonists"}, {"color": "lightblue", "id": "Buserelin", "label": "Buserelin", "shape": "dot", "size": 15, "title": "Buserelin"}, {"color": "lightblue", "id": "3-hydroxytamoxifen", "label": "3-hydroxytamoxifen", "shape": "dot", "size": 15, "title": "3-hydroxytamoxifen"}, {"color": "lightblue", "id": "Steroidal Aromatase Inhibitor", "label": "Steroidal Aromatase Inhibitor", "shape": "dot", "size": 15, "title": "Steroidal Aromatase Inhibitor"}, {"color": "lightblue", "id": "Tamoxifen Citrate", "label": "Tamoxifen Citrate", "shape": "dot", "size": 15, "title": "Tamoxifen Citrate"}, {"color": "lightblue", "id": "MEDROXYPROGESTERONE TREATMENT", "label": "MEDROXYPROGESTERONE TREATMENT", "shape": "dot", "size": 15, "title": "MEDROXYPROGESTERONE TREATMENT"}, {"color": "lightblue", "id": "Postmenopausal Hormone Replacement Therapy", "label": "Postmenopausal Hormone Replacement Therapy", "shape": "dot", "size": 15, "title": "Postmenopausal Hormone Replacement Therapy"}, {"color": "lightblue", "id": "hydroxytamoxifen", "label": "hydroxytamoxifen", "shape": "dot", "size": 15, "title": "hydroxytamoxifen"}, {"color": "lightblue", "id": "Tamoxifen 20 MG", "label": "Tamoxifen 20 MG", "shape": "dot", "size": 15, "title": "Tamoxifen 20 MG"}, {"color": "lightblue", "id": "Hormone Therapy", "label": "Hormone Therapy", "shape": "dot", "size": 15, "title": "Hormone Therapy"}, {"color": "lightblue", "id": "tamoxifen", "label": "tamoxifen", "shape": "dot", "size": 15, "title": "tamoxifen"}, {"color": "lightblue", "id": "Tamoxifen therapy", "label": "Tamoxifen therapy", "shape": "dot", "size": 15, "title": "Tamoxifen therapy"}, {"color": "lightblue", "id": "estrogens", "label": "estrogens", "shape": "dot", "size": 15, "title": "estrogens"}, {"color": "lightblue", "id": "Medroxyprogesterone", "label": "Medroxyprogesterone", "shape": "dot", "size": 15, "title": "Medroxyprogesterone"}, {"color": "lightblue", "id": "4-hydroxytamoxifen", "label": "4-hydroxytamoxifen", "shape": "dot", "size": 15, "title": "4-hydroxytamoxifen"}, {"color": "lightblue", "id": "Estrogens, Non-Steroidal", "label": "Estrogens, Non-Steroidal", "shape": "dot", "size": 15, "title": "Estrogens, Non-Steroidal"}, {"color": "lightblue", "id": "pyrrolidino-4-iodotamoxifen", "label": "pyrrolidino-4-iodotamoxifen", "shape": "dot", "size": 15, "title": "pyrrolidino-4-iodotamoxifen"}, {"color": "lightblue", "id": "Progestogen hormone therapy", "label": "Progestogen hormone therapy", "shape": "dot", "size": 15, "title": "Progestogen hormone therapy"}, {"color": "lightblue", "id": "ESTROGENS,VAGINAL", "label": "ESTROGENS,VAGINAL", "shape": "dot", "size": 15, "title": "ESTROGENS,VAGINAL"}, {"color": "lightblue", "id": "raloxifene hydrochloride", "label": "raloxifene hydrochloride", "shape": "dot", "size": 15, "title": "raloxifene hydrochloride"}, {"color": "lightblue", "id": "4-hydroxy-N-desmethyltamoxifen, (Z)-isomer", "label": "4-hydroxy-N-desmethyltamoxifen, (Z)-isomer", "shape": "dot", "size": 15, "title": "4-hydroxy-N-desmethyltamoxifen, (Z)-isomer"}, {"color": "lightblue", "id": "Conjugated Equine Estrogens", "label": "Conjugated Equine Estrogens", "shape": "dot", "size": 15, "title": "Conjugated Equine Estrogens"}, {"color": "lightblue", "id": "Estrogen hormone therapy", "label": "Estrogen hormone therapy", "shape": "dot", "size": 15, "title": "Estrogen hormone therapy"}, {"color": "lightblue", "id": "Exogenous Hormone Therapy", "label": "Exogenous Hormone Therapy", "shape": "dot", "size": 15, "title": "Exogenous Hormone Therapy"}, {"color": "lightblue", "id": "Tamoxifen 40 MG", "label": "Tamoxifen 40 MG", "shape": "dot", "size": 15, "title": "Tamoxifen 40 MG"}, {"color": "lightblue", "id": "tamoxifen citrate", "label": "tamoxifen citrate", "shape": "dot", "size": 15, "title": "tamoxifen citrate"}, {"color": "lightblue", "id": "Ablative hormone therapy", "label": "Ablative hormone therapy", "shape": "dot", "size": 15, "title": "Ablative hormone therapy"}, {"color": "lightblue", "id": "N-desmethyltamoxifen", "label": "N-desmethyltamoxifen", "shape": "dot", "size": 15, "title": "N-desmethyltamoxifen"}, {"color": "lightblue", "id": "Raloxifene Hydrochloride", "label": "Raloxifene Hydrochloride", "shape": "dot", "size": 15, "title": "Raloxifene Hydrochloride"}, {"color": "lightblue", "id": "4-hydroxy-N-desmethyltamoxifen", "label": "4-hydroxy-N-desmethyltamoxifen", "shape": "dot", "size": 15, "title": "4-hydroxy-N-desmethyltamoxifen"}, {"color": "lightblue", "id": "Thyroid hormone replacement therapy", "label": "Thyroid hormone replacement therapy", "shape": "dot", "size": 15, "title": "Thyroid hormone replacement therapy"}, {"color": "lightblue", "id": "raloxifene", "label": "raloxifene", "shape": "dot", "size": 15, "title": "raloxifene"}, {"color": "lightblue", "id": "megestrol acetate", "label": "megestrol acetate", "shape": "dot", "size": 15, "title": "megestrol acetate"}, {"color": "lightblue", "id": "Hydroxyestrones", "label": "Hydroxyestrones", "shape": "dot", "size": 15, "title": "Hydroxyestrones"}, {"color": "lightblue", "id": "estrone", "label": "estrone", "shape": "dot", "size": 15, "title": "estrone"}, {"color": "lightblue", "id": "Oral form medroxyprogesterone", "label": "Oral form medroxyprogesterone", "shape": "dot", "size": 15, "title": "Oral form medroxyprogesterone"}, {"color": "lightblue", "id": "Tamoxifen 10 MG", "label": "Tamoxifen 10 MG", "shape": "dot", "size": 15, "title": "Tamoxifen 10 MG"}, {"color": "lightblue", "id": "diethylstilbestrol", "label": "diethylstilbestrol", "shape": "dot", "size": 15, "title": "diethylstilbestrol"}, {"color": "lightblue", "id": "Angiogenesis Inhibitors", "label": "Angiogenesis Inhibitors", "shape": "dot", "size": 15, "title": "Angiogenesis Inhibitors"}, {"color": "lightblue", "id": "inhibitors", "label": "inhibitors", "shape": "dot", "size": 15, "title": "inhibitors"}, {"color": "lightblue", "id": "Goserelin Acetate", "label": "Goserelin Acetate", "shape": "dot", "size": 15, "title": "Goserelin Acetate"}, {"color": "lightblue", "id": "Cyclooxygenase 2 Inhibitors", "label": "Cyclooxygenase 2 Inhibitors", "shape": "dot", "size": 15, "title": "Cyclooxygenase 2 Inhibitors"}, {"color": "lightblue", "id": "mullerian-inhibiting hormone", "label": "mullerian-inhibiting hormone", "shape": "dot", "size": 15, "title": "mullerian-inhibiting hormone"}, {"color": "lightblue", "id": "Estrogen Progestin Replacement Therapy", "label": "Estrogen Progestin Replacement Therapy", "shape": "dot", "size": 15, "title": "Estrogen Progestin Replacement Therapy"}, {"color": "lightblue", "id": "Thyrotropin-Releasing Hormone", "label": "Thyrotropin-Releasing Hormone", "shape": "dot", "size": 15, "title": "Thyrotropin-Releasing Hormone"}, {"color": "lightblue", "id": "Cyproterone Acetate", "label": "Cyproterone Acetate", "shape": "dot", "size": 15, "title": "Cyproterone Acetate"}, {"color": "lightblue", "id": "Acetate", "label": "Acetate", "shape": "dot", "size": 15, "title": "Acetate"}, {"color": "lightblue", "id": "norethindrone acetate", "label": "norethindrone acetate", "shape": "dot", "size": 15, "title": "norethindrone acetate"}, {"color": "lightblue", "id": "Steroid hormone", "label": "Steroid hormone", "shape": "dot", "size": 15, "title": "Steroid hormone"}, {"color": "lightblue", "id": "parathyroid hormone-related protein|PTHLH", "label": "parathyroid hormone-related protein|PTHLH", "shape": "dot", "size": 15, "title": "parathyroid hormone-related protein|PTHLH"}, {"color": "lightblue", "id": "Aromatase inhibition therapy", "label": "Aromatase inhibition therapy", "shape": "dot", "size": 15, "title": "Aromatase inhibition therapy"}, {"color": "lightblue", "id": "Hydroxymethylglutaryl-CoA Reductase Inhibitors", "label": "Hydroxymethylglutaryl-CoA Reductase Inhibitors", "shape": "dot", "size": 15, "title": "Hydroxymethylglutaryl-CoA Reductase Inhibitors"}, {"color": "lightblue", "id": "Enzyme Inhibitors", "label": "Enzyme Inhibitors", "shape": "dot", "size": 15, "title": "Enzyme Inhibitors"}, {"color": "lightblue", "id": "Angiotensin-Converting Enzyme Inhibitors", "label": "Angiotensin-Converting Enzyme Inhibitors", "shape": "dot", "size": 15, "title": "Angiotensin-Converting Enzyme Inhibitors"}, {"color": "lightblue", "id": "Leuprolide Acetate", "label": "Leuprolide Acetate", "shape": "dot", "size": 15, "title": "Leuprolide Acetate"}, {"color": "lightblue", "id": "Serotonin Uptake Inhibitors", "label": "Serotonin Uptake Inhibitors", "shape": "dot", "size": 15, "title": "Serotonin Uptake Inhibitors"}, {"color": "lightblue", "id": "Follicle Stimulating Hormone|BRD2", "label": "Follicle Stimulating Hormone|BRD2", "shape": "dot", "size": 15, "title": "Follicle Stimulating Hormone|BRD2"}, {"color": "lightblue", "id": "Hormone Antagonists", "label": "Hormone Antagonists", "shape": "dot", "size": 15, "title": "Hormone Antagonists"}, {"color": "lightblue", "id": "Protein-tyrosine kinase inhibitor", "label": "Protein-tyrosine kinase inhibitor", "shape": "dot", "size": 15, "title": "Protein-tyrosine kinase inhibitor"}, {"color": "lightblue", "id": "Tubulin Inhibitors", "label": "Tubulin Inhibitors", "shape": "dot", "size": 15, "title": "Tubulin Inhibitors"}, {"color": "lightblue", "id": "Poly(ADP-ribose) Polymerase Inhibitors", "label": "Poly(ADP-ribose) Polymerase Inhibitors", "shape": "dot", "size": 15, "title": "Poly(ADP-ribose) Polymerase Inhibitors"}, {"color": "lightblue", "id": "Luteinizing Hormone-releasing Hormone Agonist", "label": "Luteinizing Hormone-releasing Hormone Agonist", "shape": "dot", "size": 15, "title": "Luteinizing Hormone-releasing Hormone Agonist"}, {"color": "lightblue", "id": "Proton Pump Inhibitors", "label": "Proton Pump Inhibitors", "shape": "dot", "size": 15, "title": "Proton Pump Inhibitors"}, {"color": "lightblue", "id": "PD-L1 Inhibitors", "label": "PD-L1 Inhibitors", "shape": "dot", "size": 15, "title": "PD-L1 Inhibitors"}, {"color": "lightblue", "id": "Selective Serotonin Reuptake Inhibitors", "label": "Selective Serotonin Reuptake Inhibitors", "shape": "dot", "size": 15, "title": "Selective Serotonin Reuptake Inhibitors"}, {"color": "lightblue", "id": "Gold Therapy", "label": "Gold Therapy", "shape": "dot", "size": 15, "title": "Gold Therapy"}, {"color": "lightblue", "id": "Estrogen Therapy", "label": "Estrogen Therapy", "shape": "dot", "size": 15, "title": "Estrogen Therapy"}, {"color": "lightblue", "id": "Tumor Necrosis Factor Inhibitors", "label": "Tumor Necrosis Factor Inhibitors", "shape": "dot", "size": 15, "title": "Tumor Necrosis Factor Inhibitors"}, {"color": "lightblue", "id": "Hormone manipulation", "label": "Hormone manipulation", "shape": "dot", "size": 15, "title": "Hormone manipulation"}, {"color": "lightblue", "id": "Megestrol", "label": "Megestrol", "shape": "dot", "size": 15, "title": "Megestrol"}, {"color": "lightblue", "id": "Growth Inhibitors", "label": "Growth Inhibitors", "shape": "dot", "size": 15, "title": "Growth Inhibitors"}, {"color": "lightblue", "id": "Histone Deacetylase Inhibitor", "label": "Histone Deacetylase Inhibitor", "shape": "dot", "size": 15, "title": "Histone Deacetylase Inhibitor"}, {"color": "lightblue", "id": "Follicle Stimulating Hormone", "label": "Follicle Stimulating Hormone", "shape": "dot", "size": 15, "title": "Follicle Stimulating Hormone"}, {"color": "lightblue", "id": "Serine Proteinase Inhibitors", "label": "Serine Proteinase Inhibitors", "shape": "dot", "size": 15, "title": "Serine Proteinase Inhibitors"}, {"color": "lightblue", "id": "Current Therapy", "label": "Current Therapy", "shape": "dot", "size": 15, "title": "Current Therapy"}, {"color": "lightblue", "id": "Nicotine replacement therapy", "label": "Nicotine replacement therapy", "shape": "dot", "size": 15, "title": "Nicotine replacement therapy"}, {"color": "lightblue", "id": "Valve Replacement", "label": "Valve Replacement", "shape": "dot", "size": 15, "title": "Valve Replacement"}, {"color": "lightblue", "id": "Luteinizing Hormone", "label": "Luteinizing Hormone", "shape": "dot", "size": 15, "title": "Luteinizing Hormone"}, {"color": "lightblue", "id": "Cyclooxygenase Inhibitors", "label": "Cyclooxygenase Inhibitors", "shape": "dot", "size": 15, "title": "Cyclooxygenase Inhibitors"}, {"color": "lightblue", "id": "17-(allylamino)-17-demethoxygeldanamycin", "label": "17-(allylamino)-17-demethoxygeldanamycin", "shape": "dot", "size": 15, "title": "17-(allylamino)-17-demethoxygeldanamycin"}, {"color": "lightblue", "id": "Hormone suppression therapy", "label": "Hormone suppression therapy", "shape": "dot", "size": 15, "title": "Hormone suppression therapy"}, {"color": "lightblue", "id": "ethyl acetate", "label": "ethyl acetate", "shape": "dot", "size": 15, "title": "ethyl acetate"}, {"color": "lightblue", "id": "Aromatase", "label": "Aromatase", "shape": "dot", "size": 15, "title": "Aromatase"}, {"color": "lightblue", "id": "Ribonucleotide Reductase Inhibitors", "label": "Ribonucleotide Reductase Inhibitors", "shape": "dot", "size": 15, "title": "Ribonucleotide Reductase Inhibitors"}, {"color": "lightblue", "id": "Gonadotropin releasing hormone antagonist", "label": "Gonadotropin releasing hormone antagonist", "shape": "dot", "size": 15, "title": "Gonadotropin releasing hormone antagonist"}, {"color": "lightblue", "id": "Matrix Metalloproteinase Inhibitors", "label": "Matrix Metalloproteinase Inhibitors", "shape": "dot", "size": 15, "title": "Matrix Metalloproteinase Inhibitors"}, {"color": "lightblue", "id": "MTOR Inhibitors", "label": "MTOR Inhibitors", "shape": "dot", "size": 15, "title": "MTOR Inhibitors"}, {"color": "lightblue", "id": "parathyroid hormone-related protein", "label": "parathyroid hormone-related protein", "shape": "dot", "size": 15, "title": "parathyroid hormone-related protein"}, {"color": "lightblue", "id": "hydrocortisone acetate", "label": "hydrocortisone acetate", "shape": "dot", "size": 15, "title": "hydrocortisone acetate"}, {"color": "lightblue", "id": "Goserelin Acetate|EREG|ESR1", "label": "Goserelin Acetate|EREG|ESR1", "shape": "dot", "size": 15, "title": "Goserelin Acetate|EREG|ESR1"}, {"color": "lightblue", "id": "Protein Kinase Inhibitors", "label": "Protein Kinase Inhibitors", "shape": "dot", "size": 15, "title": "Protein Kinase Inhibitors"}, {"color": "lightblue", "id": "PARP inhibitor therapy", "label": "PARP inhibitor therapy", "shape": "dot", "size": 15, "title": "PARP inhibitor therapy"}, {"color": "lightblue", "id": "elliptinium acetate", "label": "elliptinium acetate", "shape": "dot", "size": 15, "title": "elliptinium acetate"}, {"color": "lightblue", "id": "gut hormone", "label": "gut hormone", "shape": "dot", "size": 15, "title": "gut hormone"}, {"color": "lightblue", "id": "Farnesyl Transferase Inhibitor", "label": "Farnesyl Transferase Inhibitor", "shape": "dot", "size": 15, "title": "Farnesyl Transferase Inhibitor"}, {"color": "lightblue", "id": "Aromatase|CYP19A1", "label": "Aromatase|CYP19A1", "shape": "dot", "size": 15, "title": "Aromatase|CYP19A1"}, {"color": "lightblue", "id": "reproductive hormone", "label": "reproductive hormone", "shape": "dot", "size": 15, "title": "reproductive hormone"}, {"color": "lightblue", "id": "Sex Hormone-Binding Globulin", "label": "Sex Hormone-Binding Globulin", "shape": "dot", "size": 15, "title": "Sex Hormone-Binding Globulin"}, {"color": "lightblue", "id": "Replacement therapy", "label": "Replacement therapy", "shape": "dot", "size": 15, "title": "Replacement therapy"}, {"color": "lightblue", "id": "Histone deacetylase inhibitor", "label": "Histone deacetylase inhibitor", "shape": "dot", "size": 15, "title": "Histone deacetylase inhibitor"}, {"color": "lightblue", "id": "Topoisomerase Inhibitors", "label": "Topoisomerase Inhibitors", "shape": "dot", "size": 15, "title": "Topoisomerase Inhibitors"}, {"color": "lightblue", "id": "Preoperative hormone treatment", "label": "Preoperative hormone treatment", "shape": "dot", "size": 15, "title": "Preoperative hormone treatment"}, {"color": "lightblue", "id": "Dihydrofolate Reductase Inhibitors", "label": "Dihydrofolate Reductase Inhibitors", "shape": "dot", "size": 15, "title": "Dihydrofolate Reductase Inhibitors"}, {"color": "lightblue", "id": "Recombinant Follicle Stimulating Hormone", "label": "Recombinant Follicle Stimulating Hormone", "shape": "dot", "size": 15, "title": "Recombinant Follicle Stimulating Hormone"}, {"color": "lightblue", "id": "Dipeptidyl-Peptidase IV Inhibitors", "label": "Dipeptidyl-Peptidase IV Inhibitors", "shape": "dot", "size": 15, "title": "Dipeptidyl-Peptidase IV Inhibitors"}, {"color": "lightblue", "id": "Thyrotropin-Releasing Hormone|TRH", "label": "Thyrotropin-Releasing Hormone|TRH", "shape": "dot", "size": 15, "title": "Thyrotropin-Releasing Hormone|TRH"}, {"color": "lightblue", "id": "Melanocyte stimulating hormone", "label": "Melanocyte stimulating hormone", "shape": "dot", "size": 15, "title": "Melanocyte stimulating hormone"}, {"color": "lightblue", "id": "Nitric Oxide Synthase Inhibitors", "label": "Nitric Oxide Synthase Inhibitors", "shape": "dot", "size": 15, "title": "Nitric Oxide Synthase Inhibitors"}, {"color": "lightblue", "id": "Protease Inhibitors", "label": "Protease Inhibitors", "shape": "dot", "size": 15, "title": "Protease Inhibitors"}, {"color": "lightblue", "id": "17-Ketosteroids", "label": "17-Ketosteroids", "shape": "dot", "size": 15, "title": "17-Ketosteroids"}, {"color": "lightblue", "id": "Carbonic Anhydrase Inhibitors", "label": "Carbonic Anhydrase Inhibitors", "shape": "dot", "size": 15, "title": "Carbonic Anhydrase Inhibitors"}]);
+                  edges = new vis.DataSet([{"color": "gray", "from": "Tamoxifen", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Hormone replacement therapy", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Phytoestrogens", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Estrogens, Synthetic", "label": "0.0419580", "title": "Factuality Score: 0.0419580", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Aromatase Inhibitors", "label": "0.0379620", "title": "Factuality Score: 0.0379620", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Estrogens", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "estrone sulfate", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Progestins", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Estrogen Replacement Therapy", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Raloxifene", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Diethylstilbestrol", "label": "0.0419580", "title": "Factuality Score: 0.0419580", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Gonadotropin-Releasing Hormone Analog", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Non-Steroidal Aromatase Inhibitor", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Buserelin|EREG|ESR1", "label": "0.0419580", "title": "Factuality Score: 0.0419580", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Medroxyprogesterone 17-Acetate", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Megestrol Acetate", "label": "0.0419580", "title": "Factuality Score: 0.0419580", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Estrone", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Androgen Antagonists", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Buserelin", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "3-hydroxytamoxifen", "label": "0.0419580", "title": "Factuality Score: 0.0419580", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Steroidal Aromatase Inhibitor", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Tamoxifen Citrate", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "MEDROXYPROGESTERONE TREATMENT", "label": "0.0379620", "title": "Factuality Score: 0.0379620", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Postmenopausal Hormone Replacement Therapy", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "hydroxytamoxifen", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Tamoxifen 20 MG", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Hormone Therapy", "label": "0.0289710", "title": "Factuality Score: 0.0289710", "to": "Female Breast Cancer"}, {"color": "gray", "from": "tamoxifen", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Tamoxifen therapy", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "estrogens", "label": "0.0139860", "title": "Factuality Score: 0.0139860", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Medroxyprogesterone", "label": "0.0419580", "title": "Factuality Score: 0.0419580", "to": "Female Breast Cancer"}, {"color": "gray", "from": "4-hydroxytamoxifen", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Estrogens, Non-Steroidal", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "pyrrolidino-4-iodotamoxifen", "label": "0.0419580", "title": "Factuality Score: 0.0419580", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Progestogen hormone therapy", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "ESTROGENS,VAGINAL", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "raloxifene hydrochloride", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "4-hydroxy-N-desmethyltamoxifen, (Z)-isomer", "label": "0.0289710", "title": "Factuality Score: 0.0289710", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Conjugated Equine Estrogens", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Estrogen hormone therapy", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Exogenous Hormone Therapy", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Tamoxifen 40 MG", "label": "0.0419580", "title": "Factuality Score: 0.0419580", "to": "Female Breast Cancer"}, {"color": "gray", "from": "tamoxifen citrate", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Ablative hormone therapy", "label": "0.0379620", "title": "Factuality Score: 0.0379620", "to": "Female Breast Cancer"}, {"color": "gray", "from": "N-desmethyltamoxifen", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Raloxifene Hydrochloride", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "4-hydroxy-N-desmethyltamoxifen", "label": "0.0139860", "title": "Factuality Score: 0.0139860", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Thyroid hormone replacement therapy", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "raloxifene", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "megestrol acetate", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Hydroxyestrones", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "estrone", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Oral form medroxyprogesterone", "label": "0.0419580", "title": "Factuality Score: 0.0419580", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Tamoxifen 10 MG", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "diethylstilbestrol", "label": "0.0289710", "title": "Factuality Score: 0.0289710", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Angiogenesis Inhibitors", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "inhibitors", "label": "0.0419580", "title": "Factuality Score: 0.0419580", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Goserelin Acetate", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Cyclooxygenase 2 Inhibitors", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "mullerian-inhibiting hormone", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Estrogen Progestin Replacement Therapy", "label": "0.0379620", "title": "Factuality Score: 0.0379620", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Thyrotropin-Releasing Hormone", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Cyproterone Acetate", "label": "0.0099900", "title": "Factuality Score: 0.0099900", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Acetate", "label": "0.0079920", "title": "Factuality Score: 0.0079920", "to": "Female Breast Cancer"}, {"color": "gray", "from": "norethindrone acetate", "label": "0.0379620", "title": "Factuality Score: 0.0379620", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Steroid hormone", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "parathyroid hormone-related protein|PTHLH", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Aromatase inhibition therapy", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Hydroxymethylglutaryl-CoA Reductase Inhibitors", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Enzyme Inhibitors", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Angiotensin-Converting Enzyme Inhibitors", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Leuprolide Acetate", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Serotonin Uptake Inhibitors", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Follicle Stimulating Hormone|BRD2", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Hormone Antagonists", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Protein-tyrosine kinase inhibitor", "label": "0.0379620", "title": "Factuality Score: 0.0379620", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Tubulin Inhibitors", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Poly(ADP-ribose) Polymerase Inhibitors", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Luteinizing Hormone-releasing Hormone Agonist", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Proton Pump Inhibitors", "label": "0.0289710", "title": "Factuality Score: 0.0289710", "to": "Female Breast Cancer"}, {"color": "gray", "from": "PD-L1 Inhibitors", "label": "0.0439560", "title": "Factuality Score: 0.0439560", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Selective Serotonin Reuptake Inhibitors", "label": "0.0379620", "title": "Factuality Score: 0.0379620", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Gold Therapy", "label": "0.0139860", "title": "Factuality Score: 0.0139860", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Estrogen Therapy", "label": "0.0139860", "title": "Factuality Score: 0.0139860", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Tumor Necrosis Factor Inhibitors", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Hormone manipulation", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Megestrol", "label": "0.0419580", "title": "Factuality Score: 0.0419580", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Growth Inhibitors", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Histone Deacetylase Inhibitor", "label": "0.0379620", "title": "Factuality Score: 0.0379620", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Follicle Stimulating Hormone", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Serine Proteinase Inhibitors", "label": "0.0099900", "title": "Factuality Score: 0.0099900", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Current Therapy", "label": "0.0139860", "title": "Factuality Score: 0.0139860", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Nicotine replacement therapy", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Valve Replacement", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Luteinizing Hormone", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Cyclooxygenase Inhibitors", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "17-(allylamino)-17-demethoxygeldanamycin", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Hormone suppression therapy", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "ethyl acetate", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Aromatase", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Ribonucleotide Reductase Inhibitors", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Gonadotropin releasing hormone antagonist", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Matrix Metalloproteinase Inhibitors", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "MTOR Inhibitors", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "parathyroid hormone-related protein", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "hydrocortisone acetate", "label": "0.0419580", "title": "Factuality Score: 0.0419580", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Goserelin Acetate|EREG|ESR1", "label": "0.0099900", "title": "Factuality Score: 0.0099900", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Protein Kinase Inhibitors", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "PARP inhibitor therapy", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "elliptinium acetate", "label": "0.0419580", "title": "Factuality Score: 0.0419580", "to": "Female Breast Cancer"}, {"color": "gray", "from": "gut hormone", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Farnesyl Transferase Inhibitor", "label": "0.0379620", "title": "Factuality Score: 0.0379620", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Aromatase|CYP19A1", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "reproductive hormone", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Sex Hormone-Binding Globulin", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Replacement therapy", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Histone deacetylase inhibitor", "label": "0.0379620", "title": "Factuality Score: 0.0379620", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Topoisomerase Inhibitors", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Preoperative hormone treatment", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Dihydrofolate Reductase Inhibitors", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Recombinant Follicle Stimulating Hormone", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Dipeptidyl-Peptidase IV Inhibitors", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Thyrotropin-Releasing Hormone|TRH", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Melanocyte stimulating hormone", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Nitric Oxide Synthase Inhibitors", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Protease Inhibitors", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}, {"color": "gray", "from": "17-Ketosteroids", "label": "0.0379620", "title": "Factuality Score: 0.0379620", "to": "Female Breast Cancer"}, {"color": "gray", "from": "Carbonic Anhydrase Inhibitors", "label": "0.1928072", "title": "Factuality Score: 0.1928072", "to": "Female Breast Cancer"}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+                      network.on("stabilizationProgress", function(params) {
+                          document.getElementById('loadingBar').removeAttribute("style");
+                          var maxWidth = 496;
+                          var minWidth = 20;
+                          var widthFactor = params.iterations/params.total;
+                          var width = Math.max(minWidth,maxWidth * widthFactor);
+                          document.getElementById('bar').style.width = width + 'px';
+                          document.getElementById('text').innerHTML = Math.round(widthFactor*100) + '%';
+                      });
+                      network.once("stabilizationIterationsDone", function() {
+                          document.getElementById('text').innerHTML = '100%';
+                          document.getElementById('bar').style.width = '496px';
+                          document.getElementById('loadingBar').style.opacity = 0;
+                          // really clean the dom element
+                          setTimeout(function () {document.getElementById('loadingBar').style.display = 'none';}, 500);
+                      });
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>
