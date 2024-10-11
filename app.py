@@ -38,15 +38,6 @@ def graph(cancer_type, category_type, graph):
     return render_template('graph.html', graph_path=graph_path)
 
 
-@app.route('/causes_sta')
-def causes_sta():
-    # Paths to the frequency graphs
-    frequencies = {
-        'female': 'stat/causes_female',
-        'male': 'stat/causes_male',
-        'recurrent': 'stat/causes_reccu'
-    }
-    return render_template('causes_sta.html', frequencies=frequencies)
 
 # Serve the graph HTML files
 @app.route('/assets/graph/<path:filename>')
